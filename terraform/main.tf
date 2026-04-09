@@ -121,7 +121,7 @@ resource "aws_instance" "app" {
   user_data = <<-EOF
               #!/bin/bash
               sudo apt-get update -y
-              sudo apt-get install -y docker.io
+              sudo apt-get install docker.io -y
               sudo systemctl start docker
               sudo systemctl enable docker
               sudo usermod -aG docker ubuntu
