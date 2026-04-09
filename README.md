@@ -96,6 +96,7 @@ terraform apply
 ## Accessing the Service
 
 After Terraform deployment completes, it will output the Application Load Balancer DNS name.
+
 DNS hit on browser
 alb_dns_name = "sts-lb-189622874.ap-south-1.elb.amazonaws.com" 
 
