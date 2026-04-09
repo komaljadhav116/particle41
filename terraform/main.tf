@@ -20,7 +20,7 @@ resource "aws_subnet" "public_2" {
 resource "aws_subnet" "private" {
   vpc_id                  = aws_vpc.main.id
   cidr_block              = "10.0.3.0/24"
-  availability_zone       = "${var.aws_region}c"
+  availability_zone       = "${var.aws_region}b"
   map_public_ip_on_launch = false
 }
 
@@ -121,7 +121,7 @@ resource "aws_instance" "app" {
   user_data = <<-EOF
               #!/bin/bash
               sudo apt-get update -y
-              sudo apt-get install docker.io -y
+              sudo apt-get install -y docker.io
               sudo systemctl start docker
               sudo systemctl enable docker
               sudo usermod -aG docker ubuntu
