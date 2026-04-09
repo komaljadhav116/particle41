@@ -120,12 +120,13 @@ resource "aws_instance" "app" {
 
   user_data = <<-EOF
               #!/bin/bash
-              apt-get update -y
-              apt-get install -y docker.io
-              systemctl start docker
-              systemctl enable docker
-              usermod -aG docker ubuntu
-              docker run -d -p 3000:3000 ${var.docker_image}
+              sudo apt-get update -y
+              sudo apt-get install -y docker.io
+              sudo systemctl start docker
+              sudo systemctl enable docker
+              sudo usermod -aG docker ubuntu
+              sudo docker pull komal0116/simpletimeservice:latest
+              sudo docker run -d -p 3000:3000 ${var.docker_image}
               EOF
 
   tags = { Name = "SimpleTimeService" }
