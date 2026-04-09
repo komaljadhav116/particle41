@@ -72,8 +72,6 @@ Build the Docker image:
 docker build -t simple-time-service .
 
 Run the container:
-
-Run the container:
 docker run -p 3000:3000 simple-time-service
 
 Access the service:
@@ -109,11 +107,3 @@ alb_dns_name = "sts-lb-189622874.ap-south-1.elb.amazonaws.com"
 - The EC2 instance is placed in a private subnet.
 - Public traffic is handled only through the Application Load Balancer.
 - Infrastructure managed using Terraform Infrastructure as Code
-
-Technologies Used
-NodeJS
-Docker
-Terraform
-AWS EC2
-AWS VPC
-AWS Application Load Balancer
