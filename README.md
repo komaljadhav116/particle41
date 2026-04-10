@@ -61,7 +61,7 @@ Before deployment, ensure the following tools are installed and configured:
 
 The container image is published on Docker Hub and can be pulled using:
 
-docker pull komal0116/simpletimeservice:latest
+'''docker pull komal0116/simpletimeservice:latest'''
 
 Docker Hub Profile:
 https://hub.docker.com/repository/docker/komal0116/simpletimeservice
@@ -69,10 +69,10 @@ https://hub.docker.com/repository/docker/komal0116/simpletimeservice
 ## Running the Application Locally
 
 Build the Docker image:
-docker build -t simple-time-service .
+'''docker build -t simple-time-service .'''
 
 Run the container:
-docker run -p 3000:3000 simple-time-service
+'''docker run -p 3000:3000 simple-time-service'''
 
 Access the service:
 http://localhost:3000
@@ -80,16 +80,16 @@ http://localhost:3000
 ## Infrastructure Deployment
 
 Navigate to the Terraform directory:
-cd terraform
+'''cd terraform'''
 
 Initialize Terraform:
-terraform init
+'''terraform init'''
 
 Preview the infrastructure:
-terraform plan
+'''terraform plan'''
 
 Apply the configuration:
-terraform apply
+'''terraform apply'''
 
 ---
 
