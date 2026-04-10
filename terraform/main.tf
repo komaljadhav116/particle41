@@ -118,16 +118,27 @@ resource "aws_instance" "app" {
   vpc_security_group_ids = [aws_security_group.vm_sg.id]
   key_name               = var.key_name
 
-  user_data = <<-EOF
-              #!/bin/bash
-              sudo apt-get update -y
-              sudo apt-get install -y docker.io
-              sudo systemctl start docker
-              sudo systemctl enable docker
-              sudo usermod -aG docker ubuntu
-              sudo docker pull komal0116/simpletimeservice:latest
-              sudo docker run -d -p 3000:3000 ${var.docker_image}
-              EOF
+  depends_on = [ 
+    aws_nat_gateway.nat
+   ]
+
+ user_data = <<-EOF
+#!/bin/bash
+set -eux
+sleep 60
+
+sudo apt-get update -y
+sudo apt-get install docker.io -y
+
+sudo systemctl start docker
+sudo systemctl enable docker
+
+sudo docker pull komal0116/simpletimeservice:latest
+
+sudo docker run -d -p 3000:3000 --restart always \
+  komal0116/simpletimeservice:latest
+
+EOF
 
   tags = { Name = "SimpleTimeService" }
 }
@@ -139,16 +150,25 @@ resource "aws_lb_target_group" "tg" {
   protocol = "HTTP"
   vpc_id   = aws_vpc.main.id
 
-  health_check {
-    path                = "/"
-    interval            = 30
-    healthy_threshold   = 2
-    unhealthy_threshold = 2
-    matcher             = "200"
-  }
+ health_check {
+  path                = "/"
+  interval            = 30
+  timeout             = 15
+  healthy_threshold   = 3
+  unhealthy_threshold = 10
+  matcher             = "200-399"
+}
+}
+
+resource "time_sleep" "wait_90_sec" {
+  depends_on = [ aws_instance.app ]
+
+  create_duration = "90s"
 }
 
 resource "aws_lb_target_group_attachment" "register_tg" {
+  depends_on = [ time_sleep.wait_90_sec ]
+
   target_group_arn = aws_lb_target_group.tg.arn
   target_id        = aws_instance.app.id
   port             = 3000
